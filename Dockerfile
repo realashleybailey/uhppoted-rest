@@ -8,6 +8,7 @@ RUN mkdir -p /var/uhppoted
 COPY uhppoted.conf /etc/uhppoted/
 
 WORKDIR /opt/uhppoted 
+
 COPY uhppoted-rest     .
 COPY uhppote-simulator .
 
