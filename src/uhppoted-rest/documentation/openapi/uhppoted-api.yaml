@@ -1,0 +1,99 @@
+openapi: "3.0.3"
+
+info:
+  version: 0.7.x
+  title: "uhppoted"
+  description: "REST API for the uhppoted-rest service. The API currently supports both device level functions and higher level access control list management."
+  license:
+    name: "MIT"
+    url: "https://github.com/uhppoted/uhppoted/blob/master/LICENSE"
+    
+servers:    
+  - url: "http://127.0.0.1:8080/uhppote"
+  - url: "https://127.0.0.1:8443/uhppote"
+  
+tags:
+  - name: "device"
+    description: "Low level device API"
+  - name: "acl"
+    description: "Access control list API"
+
+security:
+  - basic: []
+  - hotp: []
+
+paths:
+  /device:
+    $ref: "./paths/devices.yaml"
+
+  /device/{device-id}:
+    $ref: "./paths/device.yaml"
+          
+  /device/{device-id}/time:
+    $ref: "./paths/time.yaml"
+
+  /device/{device-id}/door/{door}:
+    $ref: "./paths/door.yaml"
+
+  /device/{device-id}/door/{door}/delay:
+    $ref: "./paths/door-control.yaml"
+
+  /device/{device-id}/door/{door}/control:
+    $ref: "./paths/door-control.yaml"
+
+  /device/{device-id}/door/{door}/swipes:
+    $ref: "./paths/door-open.yaml"
+
+  /device/{device-id}/status:
+    $ref: "./paths/status.yaml"
+
+  /device/{device-id}/cards:
+    $ref: "./paths/cards.yaml"
+
+  /device/{device-id}/card/{card-number}:
+    $ref: "./paths/card.yaml"
+
+  /device/{device-id}/time-profiles:
+    $ref: "./paths/time-profiles.yaml"
+
+  /device/{device-id}/time-profile/{time-profile-id}:
+    $ref: "./paths/time-profile.yaml"
+
+  /device/{device-id}/tasklist:
+    $ref: "./paths/tasklist.yaml"
+
+  /device/{device-id}/events:
+    $ref: "./paths/events.yaml"
+
+  /device/{device-id}/events/{range}:
+    $ref: "./paths/events-range.yaml"
+
+  /device/{device-id}/event/{event-id}:
+    $ref: "./paths/event.yaml"
+
+  /device/{device-id}/special-events:
+    $ref: "./paths/record-special-events.yaml"
+        
+  /acl:
+    $ref: "./paths/acl.yaml"
+        
+  /acl/card/{card-number}:
+    $ref: "./paths/acl-show.yaml"
+
+  /acl/card/{card-number}/door/{door}:
+    $ref: "./paths/acl-grant.yaml"
+
+components:
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+      description: "RFC 2617 user:password credentials"
+    hotp:
+      type: http
+      scheme: bearer
+      bearerFormat: HOTP:user-id:OTP, base64 encoded
+      description: "Lightweight user:OTP authorization scheme for IOT devices"
+      
+  schemas:
+      $ref: "./schemas/_index.yaml"

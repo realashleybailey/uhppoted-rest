@@ -1,0 +1,56 @@
+# paths/tasklist.yaml
+
+put:
+  tags:
+    - device
+  summary: "Sets the controller task list"
+  description: "Replaces any existing task list on the controller with the supplied list of scheduled tasks"
+  operationId: setTaskList
+  parameters:
+    - name: device-id
+      in: path
+      description: "Device serial number"
+      required: true
+      schema:
+        type: integer
+        format: uint32
+        example: 405419896
+  requestBody:
+    description: "List of tasks"
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/TaskList.yaml"        
+  responses:
+    '200':
+      description: "Task list updated"
+      content:
+        application/json:
+          schema:
+              $ref: "../schemas/TaskListResult.yaml"         
+    '404':
+      description: "No device with ID matching device-id"
+      content:
+        application/json:
+          schema:
+              $ref: "../schemas/Error.yaml"        
+    '405':
+      description: "Invalid request"
+      content:
+        application/json:
+          schema:
+              $ref: "../schemas/Error.yaml"        
+    '500':
+      description: "Internal system error"
+      content:
+        application/json:
+          schema:
+              $ref: "../schemas/Error.yaml"        
+    default:
+      description: "Request failed"
+      content:
+        application/json:
+          schema:
+              $ref: "../schemas/Error.yaml"        
+
